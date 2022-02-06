@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_table_load_data %}
+
+{% block content %}
+
+    {% if meta_data.load_data %}
+        {{ render_table_load_data(meta_data) }}
+
+        <br>
+        <form action="/form/data" method="post" name="setData">
+            <div class="row align-items-start">
+                <div class="row mb-3">
+                    <label for="inputData1" class="col-sm-3 col-form-label">Введите индекс зависимой переменной</label>
+                    <div class="col-sm-2">
+                        <input type="number" class="form-control" name="var_y" {% if meta_data.var_y != None %}value="{{ meta_data.var_y }}"{% endif %}>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <label for="inputData3" class="col-sm-3 col-form-label">Малая положительная величина (δ)</label>
+                    <div class="col-sm-2">
+                        <input type="number" step="0.00000000001" class="form-control" name="delta" {% if meta_data.delta != None %}value="{{ meta_data.delta }}"{% endif %}>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="free_chlen" id="gridCheck" {% if meta_data.free_chlen %} checked {% endif %}>
+                        <label class="form-check-label" for="gridCheck">Использовать свободный член?</label>
+                    </div>
+                </div>
+            </div>
+
+            <br>
+            <button type="submit" class="btn btn-primary">Получить решение</button>
+            <button type="submit" class="btn btn-primary" formaction="/form/data_restrictions">Добавить ограничения</button>
+        </form>
+    {% endif %}
+{% endblock %}

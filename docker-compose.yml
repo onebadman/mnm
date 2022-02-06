@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  mnm:
+    build: .
+    command: python app.py
+    container_name: mnm
+    environment:
+      - SECRET_FLASK=secret_flask
+      - SECRET_JWT=secret_jwt
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - SPACE=dev
+    ports:
+      - '5000:5000'
+    networks:
+      - mnm_net
+    depends_on:
+      - redis
+  redis:
+    image: redis:6.0.8
+    container_name: redis
+    networks:
+      - mnm_net
+
+networks:
+  mnm_net:
+    driver: bridge

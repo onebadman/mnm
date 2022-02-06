@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    <div style="height: 500px" class="table-responsive">
+        <table class="table table-sm table-striped table-bordered">
+            <thead> <!-- Column names -->
+                <tr>
+                    <th scope="col">α</th>
+                    <th scope="col">ε</th>
+                    <th scope="col">E</th>
+                    <th scope="col">КСП</th>
+                    <th scope="col">M</th>
+                </tr>
+            </thead>
+            <tbody> <!-- Data -->
+                {% for index in result.get_max_rows() %}
+                    <tr>
+                        {% for item in result.print()[index] %}
+                            {% if item == None %}<td></td>{% else %}<td>{{item}}</td>{% endif %}
+                        {% endfor %}
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        <form name="loadResult" action="/form/load_result" method="post">
+            <button type="submit" class="btn btn-primary">Скачать результаты решения</button>
+        </form>
+    </div>
+
+{% endblock %}

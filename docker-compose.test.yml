@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  mnm:
+    build: .
+    command: python app.py
+    container_name: mnm
+    ports:
+      - '5000:5000'
+    networks:
+      - mnm_net
+
+networks:
+  mnm_net:
+    driver: bridge

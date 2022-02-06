@@ -1,0 +1,68 @@
+{# Макрос для рендеринга таблицы с загруженной матрицей #}
+{% macro render_table_load_data(data) %}
+    <div style="height: 500px" class="table-responsive">
+            <table class="table table-sm table-striped table-bordered">
+                <thead> <!-- Column names -->
+                    <tr>
+                        <th scope="col">#</th>
+                        {% for item in data.get_load_data_len() %}
+                            <th scope="col">{{ item }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody> <!-- Data -->
+                    {% for index in data.get_load_data_rows_len() %}
+                        <tr>
+                            <th scope="row">{{ index }}</th>
+                            {% for item in data.load_data[index-1] %}
+                                <td>{{item}}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+{% endmacro %}
+
+{% macro view_restrictions(data, restriction) %}
+  <form action="/form/restrictions" name="restrictions" method="post" >
+    <div class="table-responsive">
+      <table class="table table-sm table-striped table-bordered">
+        <thead> <!-- Column names -->
+          <tr>
+            {% for item in data.get_work_data_free_chlen_len() %}
+              <th scope="col">{{ item }}</th>
+            {% endfor %}
+            <th scope="col">Оператор</th>
+            <th scope="col">b</th>
+          </tr>
+        </thead>
+        <tbody> <!-- Data -->
+          {% for index in restriction.get_data_rows_len() %}
+            <tr>
+              {% for item in restriction.get_data_len() %}
+                <td>
+                  <input class="form-control" step="0.01" type="number" name="a_{{ index }}_{{ item }}" value="{{ restriction.get_item_data(index,item) }}">
+                </td>
+              {% endfor %}
+              <td>
+                <select class="form-select" name="operator_{{ index }}" aria-label="Default select example">
+                  <option {% if restriction.get_operator(index) == 'EQUALS' %}selected{% endif %} value="EQUALS">=</option>
+                  <option {% if restriction.get_operator(index) == 'MORE_OR_EQUAL' %}selected{% endif %} value="MORE_OR_EQUAL">>=</option>
+                  <option {% if restriction.get_operator(index) == 'LESS_OR_EQUAL' %}selected{% endif %} value="LESS_OR_EQUAL"><=</option>
+                </select>
+              </td>
+              <td>
+                <input class="form-control" step="0.01" type="number" name="b_{{ index }}" value="{{ restriction.get_item_b(index) }}">
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-primary">Получить решение</button>
+    <button type="submit" class="btn btn-primary" formaction="/form/add_restriction">Добавить ограничение</button>
+    <button type="submit" class="btn btn-primary" formaction="/form/remove_restriction">Удалить последнее ограничение</button>
+  </form>
+{% endmacro %}

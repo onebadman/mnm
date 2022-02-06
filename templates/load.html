@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_table_load_data %}
+
+{% block content %}
+
+    <div class="py-3 px-lg-5">
+        <form action="" method=post enctype=multipart/form-data>
+            <p><input type=file name=file>
+            <input type=submit value=Загрузить>
+        </form>
+    </div>
+
+    {% if meta_data.load_data %}
+        {{ render_table_load_data(meta_data) }}
+
+        <br>
+        <form action="/data" method="get">
+            <button type="submit" class="btn btn-primary">Подготовить исходные данные</button>
+        </form>
+    {% endif %}
+{% endblock %}

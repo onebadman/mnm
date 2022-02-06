@@ -1,0 +1,6 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import view_restrictions %}
+
+{% block content %}
+  {{ view_restrictions(meta_data, restriction) }}
+{% endblock %}
