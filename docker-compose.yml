@@ -19,7 +19,7 @@ services:
       - redis
   redis:
     image: redis:6.0.8
-    container_name: redis
+    container_name: mnm_redis
     networks:
       - mnm_net
 
